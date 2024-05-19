@@ -4,7 +4,7 @@ Event system for Unity based on interfaces
 
 Made in [Owlcat Games](https://owlcatgames.com/)
 
-Changes made in <a href="https://github.com/llarean" target="_blank"><img alt="LLarean" src="https://img.shields.io/badge/GitHub-%2312100E.svg?&style=for-the-badge&logo=Github&logoColor=white" /></a>
+Changes made in [LLarean]<a href="https://github.com/llarean" target="_blank"><img alt="Github" src="https://img.shields.io/badge/GitHub-%2312100E.svg?&style=for-the-badge&logo=Github&logoColor=white" /></a>
 
 I recycle it for my own needs and fix the errors that I encounter when using it.
 
