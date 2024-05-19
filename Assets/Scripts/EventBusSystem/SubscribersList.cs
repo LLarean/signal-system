@@ -4,43 +4,42 @@ namespace EventBusSystem
 {
     internal class SubscribersList<TSubscriber> where TSubscriber : class
     {
-        private bool m_NeedsCleanUp = false;
-
+        public readonly List<TSubscriber> TSubscribers = new List<TSubscriber>();
         public bool Executing;
-
-        public readonly List<TSubscriber> List = new List<TSubscriber>();
-
+        private bool _needsCleanUp = false;
+        
         public void Add(TSubscriber subscriber)
         {
-            List.Add(subscriber);
+            TSubscribers.Add(subscriber);
         }
 
         public void Remove(TSubscriber subscriber)
         {
             if (Executing)
             {
-                var i = List.IndexOf(subscriber);
-                if (i >= 0)
+                var index = TSubscribers.IndexOf(subscriber);
+                
+                if (index >= 0)
                 {
-                    m_NeedsCleanUp = true;
-                    List[i] = null;
+                    _needsCleanUp = true;
+                    TSubscribers[index] = null;
                 }
             }
             else
             {
-                List.Remove(subscriber);
+                TSubscribers.Remove(subscriber);
             }
         }
 
         public void Cleanup()
         {
-            if (!m_NeedsCleanUp)
+            if (!_needsCleanUp)
             {
                 return;
             }
 
-            List.RemoveAll(s => s == null);
-            m_NeedsCleanUp = false;
+            TSubscribers.RemoveAll(subscriber => subscriber == null);
+            _needsCleanUp = false;
         }
     }
 }
