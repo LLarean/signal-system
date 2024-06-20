@@ -9,7 +9,6 @@ I recycle it for my own needs and fix the errors that I encounter when using it.
 ### Recycling plan:
 - [x] Сorrect the design of the code for your own convenience /<br>
 - [ ] Correct the design of the code to comply with the agreement from Microsoft's C# Coding Conventions ([link](https://github.com/mrrogercampbell/microsoft-codecamp-lecture-notes/blob/main/resources/microsofts-csharp-coding-conventions.md)) </br>
-- [ ] Create a package for easy import into projects
 - [ ] Try adding tests </br><br>
 
 ### Fixed: </br>
