@@ -1,4 +1,4 @@
-namespace EventBusSystem
+namespace EventBus
 {
     public interface IGlobalSubscriber
     { }
