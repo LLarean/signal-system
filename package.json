@@ -10,7 +10,7 @@
     {
       "displayname" : "Example",
       "discription" : "A scene to explore the operation of the event bus",
-      "path" : "Plugins/EventBus/Samples~/"
+      "path" : "Samples~/"
     }
   ]
 }
