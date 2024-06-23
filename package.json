@@ -1,7 +1,7 @@
 {
   "name": "com.llarean.eventbus",
   "displayName": "Event Bus",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "documentationUrl": "https://github.com/LLarean/EventBus",
   "changelogUrl": "https://github.com/llarean/EventBus/releases",
   "licensesUrl": "https://github.com/llarean/EventBus/blob/master/LICENSE.txt",
@@ -10,7 +10,7 @@
     {
       "displayname" : "Example",
       "discription" : "A scene to explore the operation of the event bus",
-      "path" : "Samples~/"
+      "path" : "Samples~"
     }
   ]
 }
