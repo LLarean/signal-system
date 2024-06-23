@@ -1,16 +1,16 @@
 {
   "name": "com.llarean.eventbus",
   "displayName": "Event Bus",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "documentationUrl": "https://github.com/LLarean/EventBus",
   "changelogUrl": "https://github.com/llarean/EventBus/releases",
   "licensesUrl": "https://github.com/llarean/EventBus/blob/master/LICENSE.txt",
   "description": "Event system for Unity based on interfaces. Made in Owlcat Games. Modified by LLarean",
   "samples": [
     {
-      "displayname" : "Example",
-      "discription" : "A scene to explore the operation of the event bus",
-      "path" : "Samples~"
+      "displayName" : "UI button events",
+      "description" : "An instance where you can study how calling events and reacting to them works",
+      "path" : "Samples~/SaveLoad"
     }
   ]
 }
