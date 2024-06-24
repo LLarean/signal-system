@@ -1,4 +1,4 @@
-namespace EventBus.Samples.Scripts
+namespace EventBusSystem.Samples
 {
     public interface IQuickSaveLoadHandler : IGlobalSubscriber
     {

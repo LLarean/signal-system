@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace EventBus
+namespace EventBusSystem
 {
     internal class SubscribersList<TSubscriber> where TSubscriber : class
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace EventBus.Samples.Scripts
+namespace EventBusSystem.Samples
 {
     public class ListenerExample : MonoBehaviour, IQuickSaveLoadHandler
     {

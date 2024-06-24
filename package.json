@@ -1,7 +1,7 @@
 {
   "name": "com.llarean.eventbus",
   "displayName": "Event Bus",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "documentationUrl": "https://github.com/LLarean/EventBus",
   "changelogUrl": "https://github.com/llarean/EventBus/releases",
   "licensesUrl": "https://github.com/llarean/EventBus/blob/master/LICENSE.txt",
@@ -12,5 +12,16 @@
       "description" : "An example where you can learn how to trigger events and react to them.\nThe test scene contains buttons that Invoke events and text that reacts.",
       "path" : "Samples~/SaveLoad"
     }
-  ]
+  ],
+  "keywords": [
+    "eventbus",
+    "event",
+    "bus",
+    "interfaces",
+  ],
+  "author": {
+  "name": "LLarean",
+  "email": "llarean@yandex.ru",
+  "url": "https://github.com/LLarean"
+  }
 }

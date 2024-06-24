@@ -14,12 +14,11 @@ There are 3 ways to install this plugin:
 
 ## HOW TO and EXAMPLE CODE
 
-Simply create a new **NativeShare** object and customize it by chaining the following functions as you like (see example code):
 
 1. Create an interface that will be inherited from IGlobalSubscriber
 
 ```csharp
-using EventBus;
+using EventBusSystem;
 
 public interface IExampleHandler : IGlobalSubscriber
 {
@@ -30,7 +29,7 @@ public interface IExampleHandler : IGlobalSubscriber
 2. The class that should respond to events should inherit from the created interface
 
 ```csharp
-using EventBus;
+using EventBusSystem;
 using UnityEngine;
 
 public class ListenerExample : MonoBehaviour, IExampleHandler
@@ -54,7 +53,7 @@ public class ListenerExample : MonoBehaviour, IExampleHandler
 3. The class that triggers the events
 
 ```csharp
-using EventBus;
+using EventBusSystem;
 using UnityEngine;
 
 public class EventCallerExample : MonoBehaviour
@@ -75,3 +74,6 @@ public class EventCallerExample : MonoBehaviour
 
 ## SAMPLES
 ## PLANS
+- [ ] Follow The Microsoft code convention
+- [ ] Integration of NUnit tests
+- [ ] Issue ReadMe
