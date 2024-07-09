@@ -9,6 +9,8 @@ There are 3 ways to install this plugin:
 
 - import [EventBus.unitypackage](https://github.com/llarean/EventBus/releases) via *Assets-Import Package*
 - clone/[download](https://github.com/llarean/EventBus/archive/master.zip) this repository and move the *Plugins* folder to your Unity project's *Assets* folder
+- *(via Package Manager)* Select Add package from git URL from the add menu. A text box and an Add button appear. Enter a valid Git URL in the text box:
+  - `"https://github.com/llarean/EventBus.git"`
 - *(via Package Manager)* add the following line to *Packages/manifest.json*:
   - `"com.llarean.eventbus": "https://github.com/llarean/EventBus.git",`
 
@@ -41,11 +43,11 @@ public class ListenerExample : MonoBehaviour, IExampleHandler
     
     private void OnEnable()
     {
-        EventBus.EventBus.Subscribe(this);
+        EventBus.Subscribe(this);
     
     private void OnDisable()
     {
-        EventBus.EventBus.Unsubscribe(this);
+        EventBus.Unsubscribe(this);
     }
 }
 ```
@@ -67,7 +69,7 @@ public class EventCallerExample : MonoBehaviour
 
     private void RaiseSaveEvent()
     {
-        EventBus.EventBus.RaiseEvent<IExampleHandler>(handler => handler.HandleSave());
+        EventBus.RaiseEvent<IExampleHandler>(handler => handler.HandleSave());
     }
 }
 ```
