@@ -46,9 +46,9 @@ namespace EventBusSystem
                 return;
             }
             
-            subscribers.Executing = true;
+            subscribers.IsExecuting = true;
 
-            foreach (IGlobalSubscriber subscriber in subscribers.TSubscribers)
+            foreach (IGlobalSubscriber subscriber in subscribers.Subscribers)
             {
                 try
                 {
@@ -60,7 +60,7 @@ namespace EventBusSystem
                 }
             }
             
-            subscribers.Executing = false;
+            subscribers.IsExecuting = false;
             subscribers.Cleanup();
         }
     }
