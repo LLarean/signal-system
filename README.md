@@ -23,8 +23,6 @@ The system allows you to easily implement event subscription and broadcasting be
 
 ## Installation
 
-There are 3 ways to install this plugin:
-
 There are several ways to install:
 - Import [SignalSystem.unitypackage](https://github.com/llarean/EventBus/releases) via *Assets-Import Package*
 - Clone or [download](https://github.com/llarean/EventBus/archive/master.zip) the repository and move the *Plugins* folder to your Unity project's *Assets* folder
