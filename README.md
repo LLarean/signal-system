@@ -1,4 +1,4 @@
-# Signal System
+# Signal System (formerly EventBus)
 
 [![Releases](https://img.shields.io/github/v/release/llarean/EventBus)](https://github.com/llarean/EventBus/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/LLarean/EventBus/blob/master/LICENSE.txt)
@@ -26,7 +26,7 @@ The system allows you to easily implement event subscription and broadcasting be
 There are 3 ways to install this plugin:
 
 There are several ways to install:
-- Import [EventBus.unitypackage](https://github.com/llarean/EventBus/releases) via *Assets-Import Package*
+- Import [SignalSystem.unitypackage](https://github.com/llarean/EventBus/releases) via *Assets-Import Package*
 - Clone or [download](https://github.com/llarean/EventBus/archive/master.zip) the repository and move the *Plugins* folder to your Unity project's *Assets* folder
 - Using Package Manager:
   - Select "Add package from git URL" and enter:

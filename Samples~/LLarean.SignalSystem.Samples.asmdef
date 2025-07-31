@@ -2,8 +2,7 @@
     "name": "LLarean.SignalSystem.Samples",
     "rootNamespace": "",
     "references": [
-        "GUID:eef2a75446e0ade44ad9bf216003ecce",
-        "LLarean.SignalSystem.Runtime"
+        "GUID:eef2a75446e0ade44ad9bf216003ecce"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
