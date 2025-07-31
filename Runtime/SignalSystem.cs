@@ -4,57 +4,71 @@ using System.Collections.Generic;
 namespace GameSignals
 {
     /// <summary>
-    /// Provides a static event bus system for global subscriber communication.
+    /// Thread-safe signal system for global communication using interface-based subscribers.
     /// </summary>
     public static class SignalSystem
     {
-        private static Dictionary<Type, SubscribersList<IGlobalSubscriber>> _subscribersByType = new();
-        
+        private static readonly object _lock = new();
+        private static readonly Dictionary<Type, SubscribersList<IGlobalSubscriber>> _subscribersByType = new();
+
         /// <summary>
-        /// Subscribes an object to events based on its implemented interfaces.
+        /// Subscribes an object to events based on the interfaces it implements.
         /// </summary>
-        /// <param name="subscriber"></param>
+        /// <param name="subscriber">The subscriber object.</param>
         public static void Subscribe(IGlobalSubscriber subscriber)
         {
-            List<Type> subscriberTypes = EventBusTypes.GetSubscriberTypes(subscriber);
-            
-            foreach (Type type in subscriberTypes)
+            if (subscriber == null) throw new ArgumentNullException(nameof(subscriber));
+            var subscriberTypes = EventBusTypes.GetSubscriberTypes(subscriber);
+
+            lock (_lock)
             {
-                _subscribersByType.TryAdd(type, new SubscribersList<IGlobalSubscriber>());
-                _subscribersByType[type].Add(subscriber);
-            }
-        }
-        
-        /// <summary>
-        /// Unsubscribes an object from all events.
-        /// </summary>
-        /// <param name="subscriber"></param>
-        public static void Unsubscribe(IGlobalSubscriber subscriber)
-        {
-            List<Type> subscriberTypes = EventBusTypes.GetSubscriberTypes(subscriber);
-            
-            foreach (Type type in subscriberTypes)
-            {
-                if (_subscribersByType.TryGetValue(type, out var subscriberItem))
-                    subscriberItem.Remove(subscriber);
+                foreach (var type in subscriberTypes)
+                {
+                    _subscribersByType.TryAdd(type, new SubscribersList<IGlobalSubscriber>());
+                    _subscribersByType[type].Add(subscriber);
+                }
             }
         }
 
         /// <summary>
-        /// Raises an event for all subscribers of type <typeparamref name="TSubscriber"/>
+        /// Unsubscribes an object from all events.
         /// </summary>
-        /// <param name="action"></param>
-        /// <typeparam name="TSubscriber"></typeparam>
-        /// <exception cref="Exception"></exception>
+        /// <param name="subscriber">The subscriber object.</param>
+        public static void Unsubscribe(IGlobalSubscriber subscriber)
+        {
+            if (subscriber == null) throw new ArgumentNullException(nameof(subscriber));
+            var subscriberTypes = EventBusTypes.GetSubscriberTypes(subscriber);
+
+            lock (_lock)
+            {
+                foreach (var type in subscriberTypes)
+                {
+                    if (_subscribersByType.TryGetValue(type, out var subscriberList))
+                        subscriberList.Remove(subscriber);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Raises an event for all subscribers of type <typeparamref name="TSubscriber"/>.
+        /// </summary>
+        /// <typeparam name="TSubscriber">The subscriber type.</typeparam>
+        /// <param name="action">The action to perform for each subscriber.</param>
+        /// <exception cref="Exception">Thrown if event handling fails.</exception>
         public static void Raise<TSubscriber>(Action<TSubscriber> action)
             where TSubscriber : class, IGlobalSubscriber
         {
-            var subscribers = _subscribersByType.GetValueOrDefault(typeof(TSubscriber));
-            
-            if (subscribers == null) return;
-            if (subscribers.Subscribers.Count == 0) return;
-            
-            subscribers.IsExecuting = true;
+            if (action == null) throw new ArgumentNullException(nameof(action));
+            SubscribersList<IGlobalSubscriber> subscribers;
+
+            lock (_lock)
+            {
+                _subscribersByType.TryGetValue(typeof(TSubscriber), out subscribers);
+            }
+
+            if (subscribers == null || subscribers.Subscribers.Count == 0) return;
+
+            subscribers.SetExecuting(true);
 
             foreach (IGlobalSubscriber subscriber in subscribers.Subscribers)
             {
@@ -67,8 +81,8 @@ namespace GameSignals
                     throw new Exception($"Event failed for {subscriber.GetType()}", e);
                 }
             }
-            
-            subscribers.IsExecuting = false;
+
+            subscribers.SetExecuting(false);
             subscribers.Cleanup();
         }
     }
