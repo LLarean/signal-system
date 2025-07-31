@@ -2,7 +2,7 @@
 
 [![Releases](https://img.shields.io/github/v/release/llarean/EventBus)](https://github.com/llarean/EventBus/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/LLarean/EventBus/blob/master/LICENSE.txt)
-![stability-unstable](https://img.shields.io/badge/stability-stable-green.svg)
+![stability-stable](https://img.shields.io/badge/stability-stable-green.svg)
 [![Tests](https://img.shields.io/badge/Tests-NUnit-green.svg)]()
 [![CodeFactor](https://www.codefactor.io/repository/github/llarean/eventbus/badge)](https://www.codefactor.io/repository/github/llarean/eventbus)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
