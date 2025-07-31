@@ -26,7 +26,7 @@ There are 3 ways to install this plugin:
 1. Create an interface that will be inherited from IGlobalSubscriber
 
 ```csharp
-using EventBusSystem;
+using GameSignals;
 
 public interface IExampleHandler : IGlobalSubscriber
 {
@@ -37,7 +37,7 @@ public interface IExampleHandler : IGlobalSubscriber
 2. The class that should respond to events should inherit from the created interface
 
 ```csharp
-using EventBusSystem;
+using GameSignals;
 using UnityEngine;
 
 public class ListenerExample : MonoBehaviour, IExampleHandler
@@ -49,11 +49,11 @@ public class ListenerExample : MonoBehaviour, IExampleHandler
     
     private void OnEnable()
     {
-        EventBus.Subscribe(this);
+        SignalSystem.Subscribe(this);
     
     private void OnDisable()
     {
-        EventBus.Unsubscribe(this);
+        SignalSystem.Unsubscribe(this);
     }
 }
 ```
@@ -61,7 +61,7 @@ public class ListenerExample : MonoBehaviour, IExampleHandler
 3. The class that triggers the events
 
 ```csharp
-using EventBusSystem;
+using GameSignals;
 using UnityEngine;
 
 public class EventCallerExample : MonoBehaviour
@@ -75,7 +75,7 @@ public class EventCallerExample : MonoBehaviour
 
     private void RaiseSaveEvent()
     {
-        EventBus.RaiseEvent<IExampleHandler>(handler => handler.HandleSave());
+        SignalSystem.Raise<IExampleHandler>(handler => handler.HandleSave());
     }
 }
 ```
