@@ -4,26 +4,31 @@ using System.Linq;
 
 namespace EventBusSystem
 {
+    /// <summary>
+    /// Provides helper methods for managing event subscribers in the EventBus system
+    /// </summary>
     internal static class EventBusHelper
     {
-        private static Dictionary<Type, List<Type>> _cashedSubscriberTypes = new();
+        private static Dictionary<Type, List<Type>> _cachedSubscriberTypes = new Dictionary<Type, List<Type>>();
 
+        /// <summary>
+        /// Retrieves all subscriber interfaces implemented by the given global subscriber.
+        /// </summary>
         public static List<Type> GetSubscriberTypes(IGlobalSubscriber globalSubscriber)
         {
             Type type = globalSubscriber.GetType();
             
-            if (_cashedSubscriberTypes.TryGetValue(type, out var types))
+            if (_cachedSubscriberTypes.TryGetValue(type, out var types))
             {
                 return types;
             }
 
             List<Type> subscriberTypes = type
                 .GetInterfaces()
-                .Where(t => t.GetInterfaces()
-                    .Contains(typeof(IGlobalSubscriber)))
+                .Where(t => typeof(IGlobalSubscriber).IsAssignableFrom(t))
                 .ToList();
 
-            _cashedSubscriberTypes[type] = subscriberTypes;
+            _cachedSubscriberTypes[type] = subscriberTypes;
             return subscriberTypes;
         }
     }
