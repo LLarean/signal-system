@@ -1,9 +1,10 @@
 {
-    "name": "LLarean.EventBus.Tests.Runtime",
+    "name": "LLarean.SignalSystem.Tests.Runtime",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner"
+        "UnityEditor.TestRunner",
+        "LLarean.SignalSystem.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

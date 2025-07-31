@@ -1,5 +1,5 @@
 {
-    "name": "LLarean.EventBus.Runtime",
+    "name": "LLarean.SignalSystem.Runtime",
     "rootNamespace": "",
     "references": [],
     "includePlatforms": [],

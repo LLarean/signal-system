@@ -8,7 +8,7 @@ namespace GameSignals
     /// <summary>
     /// Provides helper methods for managing event subscribers in the EventBus system.
     /// </summary>
-    internal static class EventBusTypes
+    public static class SignalSystemTypes
     {
         private static readonly ConcurrentDictionary<Type, List<Type>> _cachedSubscriberTypes = new();
 
@@ -27,7 +27,7 @@ namespace GameSignals
 
             return _cachedSubscriberTypes.GetOrAdd(type, t =>
                 t.GetInterfaces()
-                    .Where(i => typeof(IGlobalSubscriber).IsAssignableFrom(i))
+                    .Where(i => typeof(IGlobalSubscriber).IsAssignableFrom(i) && i != typeof(IGlobalSubscriber))
                     .ToList());
         }
     }

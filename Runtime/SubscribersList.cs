@@ -7,7 +7,7 @@ namespace GameSignals
     /// Thread-unsafe list of event subscribers with deferred removal support during iteration.
     /// </summary>
     /// <typeparam name="TSubscriber">Type of subscriber that must be a reference type.</typeparam>
-    internal class SubscribersList<TSubscriber> where TSubscriber : class
+    public class SubscribersList<TSubscriber> where TSubscriber : class
     {
         private readonly List<TSubscriber> _subscribers = new();
         private bool _needsCleanUp;

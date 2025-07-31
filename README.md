@@ -1,29 +1,42 @@
-# Event Bus System
+# Signal System
 
+[![Releases](https://img.shields.io/github/v/release/llarean/EventBus)](https://github.com/llarean/EventBus/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/LLarean/EventBus/blob/master/LICENSE.txt)
+![stability-unstable](https://img.shields.io/badge/stability-stable-green.svg)
+[![Tests](https://img.shields.io/badge/Tests-NUnit-green.svg)]()
 [![CodeFactor](https://www.codefactor.io/repository/github/llarean/eventbus/badge)](https://www.codefactor.io/repository/github/llarean/eventbus)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
-[![Releases](https://img.shields.io/github/v/release/llarean/EventBus)](https://github.com/llarean/EventBus/releases)
-![stability-unstable](https://img.shields.io/badge/stability-stable-green.svg)
 
-This package provides you with a ready-made event management system.
-Originally made in Owlcat Games and modified for your own needs.
+**Signal System** is a ready-to-use event management system for Unity and .NET, based on the EventBus pattern.  
+Originally developed at Owlcat Games and adapted for open use.
 
-## INSTALLATION
+The system allows you to easily implement event subscription and broadcasting between different parts of your application without tight coupling between objects.
+
+## Features
+
+- Simple integration into Unity and .NET projects
+- Automatic detection of all subscriber interfaces via `IGlobalSubscriber`
+- High performance through subscriber type caching
+- Safe handling of null values and types
+- Unit-test support (NUnit)
+- Flexible and extensible architecture
+
+## Installation
 
 There are 3 ways to install this plugin:
 
-- import [EventBus.unitypackage](https://github.com/llarean/EventBus/releases) via *Assets-Import Package*
-- clone/[download](https://github.com/llarean/EventBus/archive/master.zip) this repository and move the *Plugins* folder to your Unity project's *Assets* folder
-- *(via Package Manager)* Select Add package from git URL from the add menu. A text box and an Add button appear. Enter a valid Git URL in the text box:
-  - `"https://github.com/llarean/EventBus.git"`
-- *(via Package Manager)* add the following line to *Packages/manifest.json*:
-  - `"com.llarean.eventbus": "https://github.com/llarean/EventBus.git",`
+There are several ways to install:
+- Import [EventBus.unitypackage](https://github.com/llarean/EventBus/releases) via *Assets-Import Package*
+- Clone or [download](https://github.com/llarean/EventBus/archive/master.zip) the repository and move the *Plugins* folder to your Unity project's *Assets* folder
+- Using Package Manager:
+  - Select "Add package from git URL" and enter:
+    `"https://github.com/llarean/EventBus.git"`
+  - Or add to *Packages/manifest.json*:
+    `"com.llarean.eventbus": "https://github.com/llarean/EventBus.git",`
 
-## HOW TO and EXAMPLE CODE
+## Usage Example
 
-
-1. Create an interface that will be inherited from IGlobalSubscriber
+1. Create an interface that inherits from `IGlobalSubscriber`:
 
 ```csharp
 using GameSignals;
@@ -34,7 +47,7 @@ public interface IExampleHandler : IGlobalSubscriber
 }
 ```
 
-2. The class that should respond to events should inherit from the created interface
+2. The class that should respond to events implements this interface:
 
 ```csharp
 using GameSignals;
@@ -44,13 +57,14 @@ public class ListenerExample : MonoBehaviour, IExampleHandler
 {
     public void HandleExample()
     {
-        // Some code that needs to be executed when the event is Invoked
+        // Code to execute when the event is raised
     }
-    
+
     private void OnEnable()
     {
         SignalSystem.Subscribe(this);
-    
+    }
+
     private void OnDisable()
     {
         SignalSystem.Unsubscribe(this);
@@ -58,7 +72,7 @@ public class ListenerExample : MonoBehaviour, IExampleHandler
 }
 ```
 
-3. The class that triggers the events
+3. The class that triggers the event:
 
 ```csharp
 using GameSignals;
@@ -75,7 +89,7 @@ public class EventCallerExample : MonoBehaviour
 
     private void RaiseSaveEvent()
     {
-        SignalSystem.Raise<IExampleHandler>(handler => handler.HandleSave());
+        SignalSystem.Raise<IExampleHandler>(handler => handler.HandleExample());
     }
 }
 ```

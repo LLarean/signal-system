@@ -18,7 +18,7 @@ namespace GameSignals
         public static void Subscribe(IGlobalSubscriber subscriber)
         {
             if (subscriber == null) throw new ArgumentNullException(nameof(subscriber));
-            var subscriberTypes = EventBusTypes.GetSubscriberTypes(subscriber);
+            var subscriberTypes = SignalSystemTypes.GetSubscriberTypes(subscriber);
 
             lock (_lock)
             {
@@ -37,7 +37,7 @@ namespace GameSignals
         public static void Unsubscribe(IGlobalSubscriber subscriber)
         {
             if (subscriber == null) throw new ArgumentNullException(nameof(subscriber));
-            var subscriberTypes = EventBusTypes.GetSubscriberTypes(subscriber);
+            var subscriberTypes = SignalSystemTypes.GetSubscriberTypes(subscriber);
 
             lock (_lock)
             {
