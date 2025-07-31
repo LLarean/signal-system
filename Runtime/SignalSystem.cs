@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace EventBusSystem
+namespace GameSignals
 {
     /// <summary>
     /// Provides a static event bus system for global subscriber communication.
     /// </summary>
-    public static class EventBus
+    public static class SignalSystem
     {
         private static Dictionary<Type, SubscribersList<IGlobalSubscriber>> _subscribersByType = new();
         
@@ -17,7 +16,7 @@ namespace EventBusSystem
         /// <param name="subscriber"></param>
         public static void Subscribe(IGlobalSubscriber subscriber)
         {
-            List<Type> subscriberTypes = EventBusHelper.GetSubscriberTypes(subscriber);
+            List<Type> subscriberTypes = EventBusTypes.GetSubscriberTypes(subscriber);
             
             foreach (Type type in subscriberTypes)
             {
@@ -32,7 +31,7 @@ namespace EventBusSystem
         /// <param name="subscriber"></param>
         public static void Unsubscribe(IGlobalSubscriber subscriber)
         {
-            List<Type> subscriberTypes = EventBusHelper.GetSubscriberTypes(subscriber);
+            List<Type> subscriberTypes = EventBusTypes.GetSubscriberTypes(subscriber);
             
             foreach (Type type in subscriberTypes)
             {
@@ -47,7 +46,7 @@ namespace EventBusSystem
         /// <param name="action"></param>
         /// <typeparam name="TSubscriber"></typeparam>
         /// <exception cref="Exception"></exception>
-        public static void RaiseEvent<TSubscriber>(Action<TSubscriber> action)
+        public static void Raise<TSubscriber>(Action<TSubscriber> action)
             where TSubscriber : class, IGlobalSubscriber
         {
             var subscribers = _subscribersByType.GetValueOrDefault(typeof(TSubscriber));

@@ -1,22 +1,24 @@
 {
-  "name": "com.llarean.eventbus",
-  "displayName": "Event Bus",
-  "version": "1.1.2",
+  "name": "com.llarean.signal-system",
+  "displayName": "Signal System",
+  "version": "1.2.0",
   "documentationUrl": "https://github.com/LLarean/EventBus",
   "changelogUrl": "https://github.com/llarean/EventBus/releases",
   "licensesUrl": "https://github.com/llarean/EventBus/blob/master/LICENSE.txt",
-  "description": "Event system for Unity based on interfaces. Made in Owlcat Games. Modified by LLarean",
+  "description": "Type-safe messaging system for Unity using interface-based signals. Perfect for decoupled game architecture. Originally developed at Owlcat Games. Modified by LLarean.",
   "samples": [
     {
-      "displayName" : "Events and reactions to them",
-      "description" : "An example where you can learn how to trigger events and react to them.\nThe test scene contains buttons that Invoke events and text that reacts.",
+      "displayName" : "Basic Usage",
+      "description" : "Demonstrates core functionality with save/load system example.",
       "path" : "Samples~/SaveLoad"
     }
   ],
   "keywords": [
+	"messaging",
+    "signals",
     "eventbus",
     "event",
-    "bus",
+	"architecture",
     "interfaces"
   ],
   "author": {

@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EventBusSystem
+namespace GameSignals
 {
     /// <summary>
     /// Provides helper methods for managing event subscribers in the EventBus system
     /// </summary>
-    internal static class EventBusHelper
+    internal static class EventBusTypes
     {
         private static Dictionary<Type, List<Type>> _cachedSubscriberTypes = new Dictionary<Type, List<Type>>();
 

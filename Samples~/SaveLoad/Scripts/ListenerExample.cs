@@ -1,35 +1,42 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace EventBusSystem.Samples
+namespace GameSignals.Samples
 {
+    /// <summary>
+    /// Example component demonstrating how to handle save/load signals.
+    /// Updates UI text when events are received.
+    /// </summary>
     public class ListenerExample : MonoBehaviour, IQuickSaveLoadHandler
     {
         [SerializeField] private Text _label;
 
         private void Start()
         {
-            _label.text = "The events did not invoked";
+            if (_label != null)
+                _label.text = "The events did not invoked";
         }
-        
+
         private void OnEnable()
         {
-            EventBus.Subscribe(this);
+            SignalSystem.Subscribe(this);
         }
 
         private void OnDisable()
         {
-            EventBus.Unsubscribe(this);
+            SignalSystem.Unsubscribe(this);
         }
 
         public void HandleSave()
         {
-            _label.text = "The <color=#005500><b>SAVE</b></color> event has invoked";
+            if (_label != null)
+                _label.text = "The <color=#005500><b>SAVE</b></color> event has invoked";
         }
 
         public void HandleLoad()
         {
-            _label.text = "The <color=#0000FF><b>LOAD</b></color> event has invoked";
+            if (_label != null)
+                _label.text = "The <color=#0000FF><b>LOAD</b></color> event has invoked";
         }
     }
 }

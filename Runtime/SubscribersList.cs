@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace EventBusSystem
+namespace GameSignals
 {
     /// <summary>
     /// Thread-unsafe list of event subscribers with deferred removal support during iteration.

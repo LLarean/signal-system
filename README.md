@@ -1,5 +1,11 @@
 # Event Bus System
 
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/LLarean/EventBus/blob/master/LICENSE.txt)
+[![CodeFactor](https://www.codefactor.io/repository/github/llarean/eventbus/badge)](https://www.codefactor.io/repository/github/llarean/eventbus)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+[![Releases](https://img.shields.io/github/v/release/llarean/EventBus)](https://github.com/llarean/EventBus/releases)
+![stability-unstable](https://img.shields.io/badge/stability-stable-green.svg)
+
 This package provides you with a ready-made event management system.
 Originally made in Owlcat Games and modified for your own needs.
 
@@ -73,9 +79,3 @@ public class EventCallerExample : MonoBehaviour
     }
 }
 ```
-
-## SAMPLES
-## PLANS
-- [ ] Follow The Microsoft code convention
-- [ ] Integration of NUnit tests
-- [ ] Issue ReadMe

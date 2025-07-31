@@ -1,4 +1,4 @@
-namespace EventBusSystem
+namespace GameSignals
 {
     /// <summary>
     /// Marker interface for types that can subscribe to global events.
