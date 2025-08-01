@@ -5,7 +5,7 @@
 ![stability-stable](https://img.shields.io/badge/stability-stable-green.svg)
 [![Tests](https://img.shields.io/badge/Tests-NUnit-green.svg)]()
 [![CodeFactor](https://www.codefactor.io/repository/github/llarean/signal-system/badge)](https://www.codefactor.io/repository/github/llarean/signal-system)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/llarean/signal-system/graphs/commit-activity)
 
 **Signal System** is a ready-to-use event management system for Unity and .NET, based on the EventBus pattern.  
 Originally developed at Owlcat Games and adapted for open use.
