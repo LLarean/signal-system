@@ -23,16 +23,26 @@ The system allows you to easily implement event subscription and broadcasting be
 
 ## Installation
 
-There are several ways to install:
-- Import [SignalSystem.unitypackage](https://github.com/llarean/signal-system/releases) via *Assets-Import Package*
-- Clone or [download](https://github.com/llarean/signal-system/archive/master.zip) the repository and move the *Plugins* folder to your Unity project's *Assets* folder
-- Using Package Manager:
-  - Select "Add package from git URL" and enter:
-    `"https://github.com/llarean/signal-system.git"`
-  - Or add to *Packages/manifest.json*:
-    `"com.llarean.eventbus": "https://github.com/llarean/signal-system.git",`
+### Unity Package Manager (Recommended)
 
-## Usage Example
+1. Open Unity Package Manager
+2. Select "Add package from git URL"
+3. Enter: https://github.com/llarean/signal-system.git
+
+### Alternative Methods
+
+- Unity Package: Download and import [SignalSystem.unitypackage](https://github.com/llarean/signal-system/releases) via Assets -> Import Package
+- Manual: Clone or [download](https://github.com/llarean/signal-system/archive/master.zip) the repository and copy the Plugins folder to your Assets directory
+- Manifest: Add to `Packages/manifest.json`:
+```
+json{
+  "dependencies": {
+    "com.llarean.eventbus": "https://github.com/llarean/signal-system.git"
+  }
+}
+```
+
+## Quick Start
 
 1. Create an interface that inherits from `IGlobalSubscriber`:
 
@@ -91,3 +101,82 @@ public class EventCallerExample : MonoBehaviour
     }
 }
 ```
+## Advanced Usage  
+
+Multiple Event Handling
+A single class can handle multiple event types:
+
+```csharp
+public class GameManager : MonoBehaviour, IPlayerDeathHandler, ILevelCompleteHandler
+{
+    public void HandlePlayerDeath(int playerId, Vector3 position) { }
+    public void HandleLevelComplete(int levelId, float completionTime) { }
+
+    private void OnEnable() => SignalSystem.Subscribe(this);
+    private void OnDisable() => SignalSystem.Unsubscribe(this);
+}
+```
+
+## Performance Tips
+
+- Always unsubscribe in OnDisable() or equivalent to prevent memory leaks
+- Use specific event interfaces rather than generic ones for better performance
+- Consider using object pooling for frequently raised events
+- Avoid heavy computations in event handlers
+
+## Troubleshooting
+### Common Issues
+
+**Events not firing?**
+
+- Ensure the listener is subscribed with `SignalSystem.Subscribe(this)`
+- Check that the interface inherits from `IGlobalSubscriber`
+- Verify the event is being raised correctly
+
+**Memory leaks?**
+
+- Always call SignalSystem.Unsubscribe(this) in cleanup methods
+- Use OnDisable() for MonoBehaviour components
+
+**Performance issues?**
+
+- Avoid subscribing/unsubscribing frequently
+- Keep event handlers lightweight
+
+## Testing
+
+The system includes comprehensive unit tests. To run them:  
+*Using Unity Test Runner*  
+```Window → General → Test Runner```
+
+## Contributing
+We welcome contributions! Please:
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.txt](https://github.com/LLarean/signal-system?tab=MIT-1-ov-file) file for details.
+
+## Acknowledgments
+Originally developed at Owlcat Games and adapted for the open-source community.
+
+## Additional Resources
+
+- [Unity Events Documentation](https://docs.unity3d.com/Manual/unity-events.html)
+- [EventBus Pattern Explanation](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern)
+- [C# Event Handling Best Practices](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/events/)
+
+---
+
+<div align="center">
+
+**Made with ❤️ for the community**
+
+⭐ If this project helped you, please consider giving it a star!
+
+</div>
