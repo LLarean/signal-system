@@ -11,6 +11,8 @@ Thanks for taking the time to contribute!
 - Keep changes small and self-contained; every commit must leave the build green.
 - The public API in `Runtime/` is documented with XML doc comments — keep them
   accurate.
+- No inline comments in `Runtime/` (CI enforces): rationale belongs in XML doc
+  comments, not next to the code.
 - The runtime must stay compatible with Unity 2021.3 (.NET Standard 2.1):
   no newer BCL APIs.
 

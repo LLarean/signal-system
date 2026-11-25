@@ -39,6 +39,14 @@ jobs:
       - name: Build with analyzers (zero warnings)
         run: dotnet build ci/SignalSystem.Runtime.csproj --configuration Release
 
+      # Inline comments are banned in Runtime: rationale lives in XML docs.
+      - name: Check comment policy
+        run: |
+          if grep -rn --include='*.cs' -E '(^|[^:/])//([^/]|$)' Runtime/; then
+            echo '::error::Inline comments are not allowed in Runtime — move the rationale into XML doc comments.'
+            exit 1
+          fi
+
       - name: Test
         run: >
           dotnet test ci/SignalSystem.Tests.csproj --configuration Release

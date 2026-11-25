@@ -23,6 +23,9 @@ CI runs the same checks; keep them green.
 - Conventional Commits, see [CONTRIBUTING.md](CONTRIBUTING.md).
 - Zero analyzer warnings: the ruleset lives in `.editorconfig`; a deviation
   needs an inline comment saying why.
+- Comments: no inline comments in `Runtime/` (CI enforces) — rationale
+  belongs in XML doc comments. `///` docs on the public API are required
+  and checked by analyzers. In tests, rare "why" comments are allowed.
 - New `.cs` files need a Unity `.meta` next to them (fresh GUID).
 - The runtime must stay compatible with Unity 2021.3 (.NET Standard 2.1):
   no newer BCL APIs.

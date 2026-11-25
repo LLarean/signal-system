@@ -72,6 +72,9 @@ namespace GameSignals
         /// <remarks>
         /// If a handler throws, remaining subscribers are not notified;
         /// the exception is wrapped and rethrown, and the list is left in a consistent state.
+        /// Dispatch iterates by index over a fixed slot count: slots cleared by a removal
+        /// during the raise are skipped, and subscribers added mid-raise are picked up
+        /// on the next event.
         /// </remarks>
         public static void Raise<TSubscriber>(Action<TSubscriber> action)
             where TSubscriber : class, IGlobalSubscriber
@@ -97,8 +100,6 @@ namespace GameSignals
 
             try
             {
-                // Index-based iteration: slots nulled by a removal during the raise
-                // are skipped, and subscribers added mid-raise are picked up next time.
                 int count = subscribers.Count;
                 for (int i = 0; i < count; i++)
                 {
