@@ -44,7 +44,7 @@ jobs:
           dotnet test ci/SignalSystem.Tests.csproj --configuration Release
           -p:CollectCoverage=true -p:CoverletOutputFormat=lcov
           -p:CoverletOutput=./TestResults/
-          -p:Threshold=$COVERAGE_FLOOR -p:ThresholdType=line
+          -p:Threshold="$COVERAGE_FLOOR" -p:ThresholdType=line
 
       - name: Summarize coverage
         run: |
