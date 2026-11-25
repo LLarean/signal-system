@@ -1,0 +1,12 @@
+{
+  "default": true,
+
+  // Prose and badge lines are not wrapped.
+  "MD013": false,
+
+  // CHANGELOG reuses "Added"/"Fixed"/"Changed" under each version heading.
+  "MD024": { "siblings_only": true },
+
+  // Quick Start and Installation use explicit 1. 2. 3. numbering.
+  "MD029": { "style": "ordered" }
+}

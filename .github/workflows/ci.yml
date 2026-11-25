@@ -1,0 +1,97 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  # Line coverage of the runtime assembly must stay above this floor.
+  COVERAGE_FLOOR: 90
+
+jobs:
+  check:
+    name: Lint, analyze and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # Problems show up as annotations on the offending lines.
+      - name: Lint workflows
+        run: |
+          docker run --rm -v "$PWD:/repo" -w /repo rhysd/actionlint:1.7.12 \
+            -format '{{range $err := .}}::error file={{$err.Filepath}},line={{$err.Line}},col={{$err.Column}}::{{$err.Message}}
+          {{end}}'
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      # The ruleset in .editorconfig is enforced fully:
+      # any analyzer warning fails the build.
+      - name: Build with analyzers (zero warnings)
+        run: dotnet build ci/SignalSystem.Runtime.csproj --configuration Release
+
+      - name: Test
+        run: >
+          dotnet test ci/SignalSystem.Tests.csproj --configuration Release
+          -p:CollectCoverage=true -p:CoverletOutputFormat=lcov
+          -p:CoverletOutput=./TestResults/
+          -p:Threshold=$COVERAGE_FLOOR -p:ThresholdType=line
+
+      - name: Summarize coverage
+        run: |
+          {
+            echo "### Test coverage"
+            echo
+            echo "| Module | Lines |"
+            echo "|---|---|"
+            awk -F: -v floor="$COVERAGE_FLOOR" '
+              /^LF:/ { found += $2 }
+              /^LH:/ { hit += $2 }
+              END {
+                pct = 100 * hit / found
+                printf "| `%s` | %d%% (%d of %d) |\n", "LLarean.SignalSystem.Runtime", pct, hit, found
+                if (pct < floor) {
+                  printf "::error::line coverage %.1f%% is below the %d%% floor\n", pct, floor > "/dev/stderr"
+                  exit 1
+                }
+              }
+            ' ci/TestResults/coverage.info
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Lint Markdown
+        run: npx --yes markdownlint-cli2 "*.md"
+
+  commits:
+    name: Conventional Commits
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Check commit subjects
+        env:
+          BASE: origin/${{ github.base_ref }}
+        run: |
+          pattern='^(feat|fix|refactor|perf|test|docs|style|build|ci|chore)(\([a-z]+\))?: .+'
+          bad=0
+          while IFS= read -r subject; do
+            if ! printf '%s' "$subject" | grep -Eq "$pattern"; then
+              echo "::error title=Bad commit subject::$subject"
+              bad=1
+            fi
+          done < <(git log --no-merges --format=%s "$BASE..HEAD")
+          if [[ $bad -ne 0 ]]; then
+            echo 'Commit subjects must look like "fix: skip cleared subscriber slots".'
+            echo 'See CONTRIBUTING.md for the full convention.'
+            exit 1
+          fi

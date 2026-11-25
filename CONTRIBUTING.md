@@ -19,10 +19,10 @@ Thanks for taking the time to contribute!
 The package is engine-independent C#, so everything runs on plain .NET:
 
 | Task | Command |
-|---|---|
+| --- | --- |
 | Build with analyzers (zero warnings required) | `dotnet build ci/SignalSystem.Runtime.csproj` |
 | Tests | `dotnet test ci/SignalSystem.Tests.csproj` |
-| Tests with coverage floor | `dotnet test ci/SignalSystem.Tests.csproj /p:CollectCoverage=true /p:Threshold=90` |
+| Tests with coverage floor | `dotnet test ci/SignalSystem.Tests.csproj -p:CollectCoverage=true -p:Threshold=90` |
 
 CI runs the same checks on every push and pull request.
 

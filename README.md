@@ -1,5 +1,6 @@
 # Signal System (formerly EventBus)
 
+[![CI](https://github.com/LLarean/signal-system/actions/workflows/ci.yml/badge.svg)](https://github.com/LLarean/signal-system/actions/workflows/ci.yml)
 [![Releases](https://img.shields.io/github/v/release/llarean/signal-system)](https://github.com/llarean/signal-system/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/LLarean/signal-system/blob/master/LICENSE.txt)
 ![stability-stable](https://img.shields.io/badge/stability-stable-green.svg)
@@ -18,6 +19,7 @@ The system allows you to easily implement event subscription and broadcasting be
 - Automatic detection of all subscriber interfaces via `IGlobalSubscriber`
 - High performance through subscriber type caching
 - Safe handling of null values and types
+- Thread-safe subscriber management
 - Unit-test support (NUnit)
 - Flexible and extensible architecture
 
@@ -27,83 +29,85 @@ The system allows you to easily implement event subscription and broadcasting be
 
 1. Open Unity Package Manager
 2. Select "Add package from git URL"
-3. Enter: https://github.com/llarean/signal-system.git
+3. Enter: <https://github.com/llarean/signal-system.git>
 
 ### Alternative Methods
 
 - Unity Package: Download and import [SignalSystem.unitypackage](https://github.com/llarean/signal-system/releases) via Assets -> Import Package
 - Manual: Clone or [download](https://github.com/llarean/signal-system/archive/master.zip) the repository and copy the Runtime folder to your Assets directory
 - Manifest: Add to `Packages/manifest.json`:
-```json
-{
-  "dependencies": {
-    "com.llarean.signal-system": "https://github.com/llarean/signal-system.git"
+
+  ```json
+  {
+    "dependencies": {
+      "com.llarean.signal-system": "https://github.com/llarean/signal-system.git"
+    }
   }
-}
-```
+  ```
 
 ## Quick Start
 
 1. Create an interface that inherits from `IGlobalSubscriber`:
 
-```csharp
-using GameSignals;
+   ```csharp
+   using GameSignals;
 
-public interface IExampleHandler : IGlobalSubscriber
-{
-    void HandleExample();
-}
-```
+   public interface IExampleHandler : IGlobalSubscriber
+   {
+       void HandleExample();
+   }
+   ```
 
 2. The class that should respond to events implements this interface:
 
-```csharp
-using GameSignals;
-using UnityEngine;
+   ```csharp
+   using GameSignals;
+   using UnityEngine;
 
-public class ListenerExample : MonoBehaviour, IExampleHandler
-{
-    public void HandleExample()
-    {
-        // Code to execute when the event is raised
-    }
+   public class ListenerExample : MonoBehaviour, IExampleHandler
+   {
+       public void HandleExample()
+       {
+           // Code to execute when the event is raised
+       }
 
-    private void OnEnable()
-    {
-        SignalSystem.Subscribe(this);
-    }
+       private void OnEnable()
+       {
+           SignalSystem.Subscribe(this);
+       }
 
-    private void OnDisable()
-    {
-        SignalSystem.Unsubscribe(this);
-    }
-}
-```
+       private void OnDisable()
+       {
+           SignalSystem.Unsubscribe(this);
+       }
+   }
+   ```
 
 3. The class that triggers the event:
 
-```csharp
-using GameSignals;
-using UnityEngine;
+   ```csharp
+   using GameSignals;
+   using UnityEngine;
+   using UnityEngine.UI;
 
-public class EventCallerExample : MonoBehaviour
-{
-    [SerializeField] private Button _save;
+   public class EventCallerExample : MonoBehaviour
+   {
+       [SerializeField] private Button _save;
 
-    private void Start()
-    {
-        _save.onClick.AddListener(RaiseSaveEvent);
-    }
+       private void Start()
+       {
+           _save.onClick.AddListener(RaiseSaveEvent);
+       }
 
-    private void RaiseSaveEvent()
-    {
-        SignalSystem.Raise<IExampleHandler>(handler => handler.HandleExample());
-    }
-}
-```
-## Advanced Usage  
+       private void RaiseSaveEvent()
+       {
+           SignalSystem.Raise<IExampleHandler>(handler => handler.HandleExample());
+       }
+   }
+   ```
 
-Multiple Event Handling
+## Advanced Usage
+
 A single class can handle multiple event types:
 
 ```csharp
@@ -125,6 +129,7 @@ public class GameManager : MonoBehaviour, IPlayerDeathHandler, ILevelCompleteHan
 - Avoid heavy computations in event handlers
 
 ## Troubleshooting
+
 ### Common Issues
 
 **Events not firing?**
@@ -145,24 +150,21 @@ public class GameManager : MonoBehaviour, IPlayerDeathHandler, ILevelCompleteHan
 
 ## Testing
 
-The system includes comprehensive unit tests. To run them:  
-*Using Unity Test Runner*  
-```Window → General → Test Runner```
+The system includes a comprehensive NUnit suite in [Tests/Runtime](Tests/Runtime).
+
+- In Unity: Window → General → Test Runner.
+- Without Unity, on plain .NET: see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Contributing
-We welcome contributions! Please:
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for the ground rules and the check commands.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](https://github.com/LLarean/signal-system?tab=MIT-1-ov-file) file for details.
 
 ## Acknowledgments
+
 Originally developed at Owlcat Games and adapted for the open-source community.  
 Based on [velik97/EventBus](https://github.com/velik97/EventBus).
 
@@ -174,10 +176,4 @@ Based on [velik97/EventBus](https://github.com/velik97/EventBus).
 
 ---
 
-<div align="center">
-
-**Made with ❤️ for the community**
-
-⭐ If this project helped you, please consider giving it a star!
-
-</div>
+If this project helped you, please consider giving it a star.
