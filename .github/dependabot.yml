@@ -1,0 +1,12 @@
+version: 2
+updates:
+  # Analyzer, test and coverage tooling in ci/
+  - package-ecosystem: nuget
+    directory: /ci
+    schedule:
+      interval: monthly
+  # Actions used by .github/workflows
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
