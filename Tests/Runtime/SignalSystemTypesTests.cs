@@ -1,11 +1,19 @@
-﻿using System;
+using System;
 using NUnit.Framework;
 
 namespace GameSignals.Tests.Runtime
 {
-    public interface ITestSubscriber : IGlobalSubscriber { }
-    public interface IOtherSubscriber : IGlobalSubscriber { }
-    public class TestClass : ITestSubscriber, IOtherSubscriber { }
+    public interface ITestSubscriber : IGlobalSubscriber
+    {
+    }
+
+    public interface IOtherSubscriber : IGlobalSubscriber
+    {
+    }
+
+    public class TestClass : ITestSubscriber, IOtherSubscriber
+    {
+    }
 
     [TestFixture]
     public class SignalSystemTypesTests

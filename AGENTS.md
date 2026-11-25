@@ -13,7 +13,7 @@ and test the package sources without Unity.
 
 | Task | Command |
 |---|---|
-| Build with analyzers (zero warnings) | `dotnet build ci/SignalSystem.Check.csproj` |
+| Build with analyzers (zero warnings) | `dotnet build ci/SignalSystem.Runtime.csproj` |
 | Test | `dotnet test ci/SignalSystem.Tests.csproj` |
 
 CI runs the same checks; keep them green.

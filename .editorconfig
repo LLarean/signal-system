@@ -1,0 +1,50 @@
+# EditorConfig and analyzer ruleset for the Signal System package.
+# The strict presets (NET analyzers latest-recommended, StyleCop, Sonar)
+# stay fully enabled; every deviation is listed here with its reason.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{cs,asmdef,json}]
+indent_style = space
+indent_size = 4
+
+[*.{md,yml,yaml}]
+indent_style = space
+indent_size = 2
+
+[*.cs]
+# StyleCop taste rules disabled project-wide:
+dotnet_diagnostic.SA1101.severity = none # 'this.' prefix on every member access
+dotnet_diagnostic.SA1309.severity = none # house style names private fields _camelCase
+dotnet_diagnostic.SA1633.severity = none # no file headers
+
+# .NET naming: private and internal fields are _camelCase.
+dotnet_naming_rule.private_fields_underscore.severity = warning
+dotnet_naming_rule.private_fields_underscore.symbols = private_fields
+dotnet_naming_rule.private_fields_underscore.style = underscore_camel
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private, internal
+dotnet_naming_style.underscore_camel.required_prefix = _
+dotnet_naming_style.underscore_camel.capitalization = camel_case
+
+# Runtime: full XML documentation on the public API.
+[Runtime/**.cs]
+dotnet_diagnostic.CS1591.severity = warning
+dotnet_diagnostic.SA1600.severity = warning
+dotnet_diagnostic.SA1602.severity = warning
+
+# Tests: NUnit conventions exempt fixtures from API-doc and
+# one-type-per-file rules.
+[Tests/**.cs]
+dotnet_diagnostic.CS1591.severity = none
+dotnet_diagnostic.SA1600.severity = none
+dotnet_diagnostic.SA1402.severity = none # helper types may share the fixture file
+dotnet_diagnostic.SA1649.severity = none # file name follows the fixture, not the first type
+dotnet_diagnostic.CA1707.severity = none # test names use the Under_score convention
+dotnet_diagnostic.S2094.severity = none  # empty dummy classes are intentional test doubles

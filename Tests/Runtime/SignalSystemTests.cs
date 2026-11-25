@@ -1,6 +1,6 @@
-﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace GameSignals.Tests.Runtime
 {
@@ -12,12 +12,18 @@ namespace GameSignals.Tests.Runtime
     public class TestSubscriber : ITestEvent
     {
         public int CallCount { get; private set; }
+
         public void OnEvent() => CallCount++;
     }
 
     [TestFixture]
     public class SignalSystemTests
     {
+        public interface IBadEvent : IGlobalSubscriber
+        {
+            void OnBadEvent();
+        }
+
         [SetUp]
         public void SetUp()
         {
@@ -84,7 +90,7 @@ namespace GameSignals.Tests.Runtime
             var badSubscriber = new BadSubscriber();
             SignalSystem.Subscribe(badSubscriber);
 
-            var ex = Assert.Throws<Exception>(() => SignalSystem.Raise<IBadEvent>(s => s.OnBadEvent()));
+            var ex = Assert.Throws<SignalSystemException>(() => SignalSystem.Raise<IBadEvent>(s => s.OnBadEvent()));
             Assert.That(ex.Message, Does.Contain("Event failed"));
         }
 
@@ -94,7 +100,7 @@ namespace GameSignals.Tests.Runtime
             var badSubscriber = new BadSubscriber();
             SignalSystem.Subscribe(badSubscriber);
 
-            Assert.Throws<Exception>(() => SignalSystem.Raise<IBadEvent>(s => s.OnBadEvent()));
+            Assert.Throws<SignalSystemException>(() => SignalSystem.Raise<IBadEvent>(s => s.OnBadEvent()));
 
             // After a failure the list must not stay in executing state:
             // unsubscribing removes immediately instead of deferring to cleanup.
@@ -116,13 +122,10 @@ namespace GameSignals.Tests.Runtime
         public class UnsubscribingSubscriber : ITestEvent
         {
             private readonly IGlobalSubscriber _target;
-            public UnsubscribingSubscriber(IGlobalSubscriber target) => _target = target;
-            public void OnEvent() => SignalSystem.Unsubscribe(_target);
-        }
 
-        public interface IBadEvent : IGlobalSubscriber
-        {
-            void OnBadEvent();
+            public UnsubscribingSubscriber(IGlobalSubscriber target) => _target = target;
+
+            public void OnEvent() => SignalSystem.Unsubscribe(_target);
         }
 
         public class BadSubscriber : IBadEvent

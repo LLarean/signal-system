@@ -1,26 +1,43 @@
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 
 namespace GameSignals
 {
     /// <summary>
-    /// Thread-unsafe list of event subscribers with deferred removal support during iteration.
+    /// List of event subscribers with deferred removal support during iteration.
+    /// Individual operations are synchronized.
     /// </summary>
     /// <typeparam name="TSubscriber">Type of subscriber that must be a reference type.</typeparam>
-    public class SubscribersList<TSubscriber> where TSubscriber : class
+    public class SubscribersList<TSubscriber>
+        where TSubscriber : class
     {
-        private readonly List<TSubscriber> _subscribers = new();
+        private readonly List<TSubscriber?> _subscribers = new List<TSubscriber?>();
+        private readonly object _lock = new object();
         private bool _needsCleanUp;
         private bool _isExecuting;
-        private readonly object _lock = new();
 
         /// <summary>
-        /// Indicates whether the subscribers list is currently being iterated.
+        /// Gets a value indicating whether the subscribers list is currently being iterated.
         /// </summary>
         public bool IsExecuting
         {
-            get { lock (_lock) { return _isExecuting; } }
-            private set { lock (_lock) { _isExecuting = value; } }
+            get
+            {
+                lock (_lock)
+                {
+                    return _isExecuting;
+                }
+            }
+
+            private set
+            {
+                lock (_lock)
+                {
+                    _isExecuting = value;
+                }
+            }
         }
 
         /// <summary>
@@ -28,34 +45,54 @@ namespace GameSignals
         /// </summary>
         public int Count
         {
-            get { lock (_lock) { return _subscribers.Count; } }
+            get
+            {
+                lock (_lock)
+                {
+                    return _subscribers.Count;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets a read-only view of current subscribers.
+        /// </summary>
+        public IReadOnlyList<TSubscriber?> Subscribers
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    return _subscribers.AsReadOnly();
+                }
+            }
         }
 
         /// <summary>
         /// Gets the subscriber at the given slot index, or null if the slot was cleared during execution.
         /// </summary>
         /// <param name="index">Slot index, must be less than <see cref="Count"/>.</param>
-        public TSubscriber GetAt(int index)
+        /// <returns>The subscriber at the given index, or null if the slot was cleared.</returns>
+        public TSubscriber? GetAt(int index)
         {
-            lock (_lock) { return _subscribers[index]; }
-        }
-
-        /// <summary>
-        /// Gets a read-only view of current subscribers.
-        /// </summary>
-        public IReadOnlyList<TSubscriber> Subscribers
-        {
-            get { lock (_lock) { return _subscribers.AsReadOnly(); } }
+            lock (_lock)
+            {
+                return _subscribers[index];
+            }
         }
 
         /// <summary>
         /// Adds a new subscriber to the list.
         /// </summary>
         /// <param name="subscriber">Subscriber to add. Must not be null.</param>
+        /// <exception cref="ArgumentNullException">Thrown if subscriber is null.</exception>
         public void Add(TSubscriber subscriber)
         {
             if (subscriber == null)
+            {
                 throw new ArgumentNullException(nameof(subscriber));
+            }
+
             lock (_lock)
             {
                 _subscribers.Add(subscriber);
@@ -93,7 +130,11 @@ namespace GameSignals
         {
             lock (_lock)
             {
-                if (!_needsCleanUp) return;
+                if (!_needsCleanUp)
+                {
+                    return;
+                }
+
                 _subscribers.RemoveAll(subscriber => subscriber == null);
                 _needsCleanUp = false;
             }

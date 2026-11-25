@@ -1,0 +1,10 @@
+<Project>
+
+  <!-- Both ci projects live in this directory; give each its own
+       intermediate/output folders so their restores don't clash. -->
+  <PropertyGroup>
+    <BaseIntermediateOutputPath>obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+    <BaseOutputPath>bin\$(MSBuildProjectName)\</BaseOutputPath>
+  </PropertyGroup>
+
+</Project>

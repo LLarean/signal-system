@@ -1,3 +1,5 @@
+#nullable enable
+
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -6,11 +8,11 @@ using System.Linq;
 namespace GameSignals
 {
     /// <summary>
-    /// Provides helper methods for managing event subscribers in the EventBus system.
+    /// Provides helper methods for managing event subscribers in the signal system.
     /// </summary>
     public static class SignalSystemTypes
     {
-        private static readonly ConcurrentDictionary<Type, List<Type>> _cachedSubscriberTypes = new();
+        private static readonly ConcurrentDictionary<Type, List<Type>> _cachedSubscriberTypes = new ConcurrentDictionary<Type, List<Type>>();
 
         /// <summary>
         /// Retrieves all subscriber interfaces implemented by the given global subscriber.
@@ -21,7 +23,9 @@ namespace GameSignals
         public static List<Type> GetSubscriberTypes(IGlobalSubscriber globalSubscriber)
         {
             if (globalSubscriber == null)
+            {
                 throw new ArgumentNullException(nameof(globalSubscriber));
+            }
 
             Type type = globalSubscriber.GetType();
 

@@ -1,9 +1,11 @@
-using NUnit.Framework;
 using System.Linq;
+using NUnit.Framework;
 
 namespace GameSignals.Tests.Runtime
 {
-    public class DummySubscriber { }
+    public class DummySubscriber
+    {
+    }
 
     [TestFixture]
     public class SubscribersListTests
