@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- README: the `.unitypackage` download is no longer offered (only the
+  2.0.0 release has one); the manual install notes that the runtime
+  sources work in any .NET project.
+
 ## [2.1.0] - 2026-11-25
 
 ### Added

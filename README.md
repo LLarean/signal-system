@@ -33,8 +33,6 @@ The system allows you to easily implement event subscription and broadcasting be
 
 ### Alternative Methods
 
-- Unity Package: Download and import [SignalSystem.unitypackage](https://github.com/llarean/signal-system/releases) via Assets -> Import Package
-- Manual: Clone or [download](https://github.com/llarean/signal-system/archive/master.zip) the repository and copy the Runtime folder to your Assets directory
 - Manifest: Add to `Packages/manifest.json`:
 
   ```json
@@ -44,6 +42,11 @@ The system allows you to easily implement event subscription and broadcasting be
     }
   }
   ```
+
+- Manual: Clone or [download](https://github.com/llarean/signal-system/archive/master.zip) the repository and copy the Runtime folder into your project.
+
+The runtime is engine-independent C# (netstandard2.1): the sources in
+`Runtime/` compile in any .NET project, no Unity required.
 
 ## Quick Start
 
