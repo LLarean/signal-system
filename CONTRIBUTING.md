@@ -26,6 +26,12 @@ The package is engine-independent C#, so everything runs on plain .NET:
 
 CI runs the same checks on every push and pull request.
 
+## Working in an IDE
+
+Open `SignalSystem.sln` in Rider or Visual Studio: both `ci/` projects
+load with the analyzer ruleset active, and the NUnit suite runs from the
+IDE test runner (.NET 10 SDK required).
+
 ## New source files
 
 Unity requires a `.meta` file next to every `.cs` file. Copy a sibling
