@@ -1,0 +1,16 @@
+# .NET build artifacts (ci/ projects)
+bin/
+obj/
+
+# Test and coverage output
+TestResults/
+coverage*.json
+
+# IDE
+.idea/
+.vscode/
+*.user
+
+# OS
+.DS_Store
+Thumbs.db
