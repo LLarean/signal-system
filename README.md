@@ -1,9 +1,9 @@
 # Signal System (formerly EventBus)
 
-[![Releases](https://img.shields.io/github/v/release/llarean/EventBus)](https://github.com/llarean/signal-system/releases)
+[![Releases](https://img.shields.io/github/v/release/llarean/signal-system)](https://github.com/llarean/signal-system/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/LLarean/signal-system/blob/master/LICENSE.txt)
 ![stability-stable](https://img.shields.io/badge/stability-stable-green.svg)
-[![Tests](https://img.shields.io/badge/Tests-NUnit-green.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-NUnit-green.svg)](https://github.com/LLarean/signal-system/tree/master/Tests)
 [![CodeFactor](https://www.codefactor.io/repository/github/llarean/signal-system/badge)](https://www.codefactor.io/repository/github/llarean/signal-system)
 [![Support](https://img.shields.io/badge/support-maintenance_mode-orange)](https://github.com/llarean/signal-system/graphs/commit-activity)
 
@@ -32,12 +32,12 @@ The system allows you to easily implement event subscription and broadcasting be
 ### Alternative Methods
 
 - Unity Package: Download and import [SignalSystem.unitypackage](https://github.com/llarean/signal-system/releases) via Assets -> Import Package
-- Manual: Clone or [download](https://github.com/llarean/signal-system/archive/master.zip) the repository and copy the Plugins folder to your Assets directory
+- Manual: Clone or [download](https://github.com/llarean/signal-system/archive/master.zip) the repository and copy the Runtime folder to your Assets directory
 - Manifest: Add to `Packages/manifest.json`:
-```
-json{
+```json
+{
   "dependencies": {
-    "com.llarean.eventbus": "https://github.com/llarean/signal-system.git"
+    "com.llarean.signal-system": "https://github.com/llarean/signal-system.git"
   }
 }
 ```
@@ -163,7 +163,8 @@ We welcome contributions! Please:
 This project is licensed under the MIT License - see the [LICENSE.txt](https://github.com/LLarean/signal-system?tab=MIT-1-ov-file) file for details.
 
 ## Acknowledgments
-Originally developed at Owlcat Games and adapted for the open-source community.
+Originally developed at Owlcat Games and adapted for the open-source community.  
+Based on [velik97/EventBus](https://github.com/velik97/EventBus).
 
 ## Additional Resources
 
