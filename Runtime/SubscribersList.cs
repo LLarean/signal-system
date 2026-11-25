@@ -24,6 +24,23 @@ namespace GameSignals
         }
 
         /// <summary>
+        /// Gets the number of slots, including null slots pending cleanup.
+        /// </summary>
+        public int Count
+        {
+            get { lock (_lock) { return _subscribers.Count; } }
+        }
+
+        /// <summary>
+        /// Gets the subscriber at the given slot index, or null if the slot was cleared during execution.
+        /// </summary>
+        /// <param name="index">Slot index, must be less than <see cref="Count"/>.</param>
+        public TSubscriber GetAt(int index)
+        {
+            lock (_lock) { return _subscribers[index]; }
+        }
+
+        /// <summary>
         /// Gets a read-only view of current subscribers.
         /// </summary>
         public IReadOnlyList<TSubscriber> Subscribers

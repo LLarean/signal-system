@@ -55,6 +55,10 @@ namespace GameSignals
         /// <typeparam name="TSubscriber">The subscriber type.</typeparam>
         /// <param name="action">The action to perform for each subscriber.</param>
         /// <exception cref="Exception">Thrown if event handling fails.</exception>
+        /// <remarks>
+        /// If a handler throws, remaining subscribers are not notified;
+        /// the exception is wrapped and rethrown, and the list is left in a consistent state.
+        /// </remarks>
         public static void Raise<TSubscriber>(Action<TSubscriber> action)
             where TSubscriber : class, IGlobalSubscriber
         {
@@ -66,24 +70,35 @@ namespace GameSignals
                 _subscribersByType.TryGetValue(typeof(TSubscriber), out subscribers);
             }
 
-            if (subscribers == null || subscribers.Subscribers.Count == 0) return;
+            if (subscribers == null || subscribers.Count == 0) return;
 
             subscribers.SetExecuting(true);
 
-            foreach (IGlobalSubscriber subscriber in subscribers.Subscribers)
+            try
             {
-                try
+                // Index-based iteration: slots nulled by a removal during the raise
+                // are skipped, and subscribers added mid-raise are picked up next time.
+                int count = subscribers.Count;
+                for (int i = 0; i < count; i++)
                 {
-                    action.Invoke(subscriber as TSubscriber);
-                }
-                catch (Exception e)
-                {
-                    throw new Exception($"Event failed for {subscriber.GetType()}", e);
+                    IGlobalSubscriber subscriber = subscribers.GetAt(i);
+                    if (subscriber == null) continue;
+
+                    try
+                    {
+                        action.Invoke(subscriber as TSubscriber);
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception($"Event failed for {subscriber.GetType()}", e);
+                    }
                 }
             }
-
-            subscribers.SetExecuting(false);
-            subscribers.Cleanup();
+            finally
+            {
+                subscribers.SetExecuting(false);
+                subscribers.Cleanup();
+            }
         }
     }
 }

@@ -88,6 +88,38 @@ namespace GameSignals.Tests.Runtime
             Assert.That(ex.Message, Does.Contain("Event failed"));
         }
 
+        [Test]
+        public void Raise_ExceptionInSubscriber_ListStaysUsable()
+        {
+            var badSubscriber = new BadSubscriber();
+            SignalSystem.Subscribe(badSubscriber);
+
+            Assert.Throws<Exception>(() => SignalSystem.Raise<IBadEvent>(s => s.OnBadEvent()));
+
+            // After a failure the list must not stay in executing state:
+            // unsubscribing removes immediately instead of deferring to cleanup.
+            SignalSystem.Unsubscribe(badSubscriber);
+            Assert.DoesNotThrow(() => SignalSystem.Raise<IBadEvent>(s => s.OnBadEvent()));
+        }
+
+        [Test]
+        public void Raise_SubscriberUnsubscribedDuringRaise_IsSkipped()
+        {
+            var target = new TestSubscriber();
+            SignalSystem.Subscribe(new UnsubscribingSubscriber(target));
+            SignalSystem.Subscribe(target);
+
+            Assert.DoesNotThrow(() => SignalSystem.Raise<ITestEvent>(s => s.OnEvent()));
+            Assert.AreEqual(0, target.CallCount);
+        }
+
+        public class UnsubscribingSubscriber : ITestEvent
+        {
+            private readonly IGlobalSubscriber _target;
+            public UnsubscribingSubscriber(IGlobalSubscriber target) => _target = target;
+            public void OnEvent() => SignalSystem.Unsubscribe(_target);
+        }
+
         public interface IBadEvent : IGlobalSubscriber
         {
             void OnBadEvent();
